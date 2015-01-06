@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<script src="../../library/d3.v3.min.js"></script>
+<style>
+
+@import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700);
+@import url(http://fonts.googleapis.com/css?family=Contrail+One:400,700);
+
+
+<style type="text/css">
+.knitr.inline {
+  background-color: #f7f7f7;
+  border:solid 1px #B0B0B0;
+}
+.error {
+	font-weight: bold;
+	color: #FF0000;
+},
+.warning {
+	font-weight: bold;
+}
+.message {
+	font-style: italic;
+}
+.source, .output, .warning, .error, .message {
+	padding: 0em 1em;
+  border:solid 1px #F7F7F7;
+}
+.source {
+  background-color: #f5f5f5;
+}
+.rimage.left {
+  text-align: left;
+}
+.rimage.right {
+  text-align: right;
+}
+.rimage.center {
+  text-align: center;
+}
+.hl.num {
+  color: #AF0F91;
+}
+.hl.str {
+  color: #317ECC;
+}
+.hl.com {
+  color: #AD95AF;
+  font-style: italic;
+}
+.hl.opt {
+  color: #000000;
+}
+.hl.std {
+  color: #585858;
+}
+.hl.kwa {
+  color: #295F94;
+  font-weight: bold;
+}
+.hl.kwb {
+  color: #B05A65;
+}
+.hl.kwc {
+  color: #55aa55;
+}
+.hl.kwd {
+  color: #BC5A65;
+  font-weight: bold;
+}
+
+</style>
+<link rel="stylesheet" type="text/css" href="../../library/common.css" />
+<link rel="stylesheet" type="text/css" href="../../library/screen.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="../../library/print.css" media="print" />
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+
+</head>
+
+
+<section style="text-align:center;padding-top:5em;">
+  <h1><span class="green">Data Science Hacking Basics </span></h1></br> <h2>avec Linux, R, et Chrome<br> <p class="grey">Master IM, Paris 5</h2>
+  <a href="http://www.twiter.com/comeetie">@comeetie</a>
+</section>
+
+<section style="text-align:center;padding-top:5em;">
+  <h1><span class="green">Visualisation avec ggplot2</span></h1></br> <h2><br> <p class="grey">Master IM, Paris 5</h2>
+  <a href="http://www.twiter.com/comeetie">@comeetie</a>
+</section>
+
+
+<section style="padding-top:2.5em;text-align:center">
+<h1 class="green"> Visualiser <h1><h1>=</h1><h1>encoder dans des </h1><h1 span class="red"> variables graphiques</h1><h1> les données</h1>
+</section>
+
+<section style="background-color:white;color:black">
+<h1 class="red">Variables graphiques</h1>
+<img src="./images/bertin1.png" height="65%"/>
+<h4 class="orange" style="text-align:center"> Bertin Jacques, Sémiologie graphique, Paris, Mouton/Gauthier-Villars, 1967.</h4>
+</section>
+
+
+<section style="background-color:white;color:black">
+<h1 class="red">Variables graphiques</h1>
+<img src="./images/bertin2.png" height="65%"/>
+<h4 class="orange" style="text-align:center"> Bertin Jacques, Sémiologie graphique, Paris, Mouton/Gauthier-Villars, 1967.</h4>
+</section>
+
+
+
+<section style="background-color:white;color:black">
+<img src="./images/gggram1.png" height="95%"/>
+</section>
+
+
+<section style="background-color:white;color:black">
+<img src="./images/gggram2.png" height="95%"/>
+</section>
+
+
+<section style="background-color:white;color:black">
+<img src="./images/gggram3.png" height="95%"/>
+</section>
+
+<section style="background-color:white;color:black">
+<img src="./images/gggram4.png" height="85%"/>
+<pre><code class="r">ggplot(mpg)+geom_point(aes(x=cty,y=hwy,color=class))
+</pre></code>
+</section>
+
+<section style="padding-top:5em;text-align:center">
+<h1> Questions ? type des variables ?</h1><h1> <span class="blue">continues ?</span> <span class="green">discrètes ?</span> <span class="red">ordonnées ?</span> <span class="purple">temporelles ?</span> <span class="orange">spatiales ?</span></h1><h1></h1>
+</section>
+
+
+
+
+<section style="padding-top:5em;text-align:center">
+<h1 class="green"> 1 variable catégorielle <h1><h1>et</h1><h1 span class="red"> une quantité</h1>
+</section>
+
+
+<section style="padding-top:5em;text-align:center">
+<h1 class="green"> le bar chart</h1>
+</section>
+
+<section style="background-color:white;color:black">
+<h4> Chargeons quelques librairies</h4>
+<div class="chunk" id="unnamed-chunk-1"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">library</span>(ggplot2)
+<span class="hl kwd">library</span>(rjson)
+</pre></div>
+</div></div>
+<h4> et des données </h4>
+
+<div class="chunk" id="unnamed-chunk-1"><div class="rcode"><div class="source"><pre class="knitr r">
+mpg ?
+gg=<span class="hl kwd">aggregate</span>(mpg$cty,<span class="hl kwd">list</span>(mpg$manufacturer),mean)
+<span class="hl kwd">names</span>(gg)=<span class="hl kwd">c</span>(<span class="hl str">&quot;manufacturer&quot;</span>,<span class="hl str">&quot;cty&quot;</span>)
+</pre></div>
+</div></div>
+<h4> dataset mpg </h4>
+<ul>
+
+<li>manufacturer.
+
+<li>model.
+
+<li>displ. engine displacement, in litres
+
+<li>...
+</ul>
+</section>
+<section style="background-color:white;color:black">
+
+<h1>bar chart</h1>
+<img src="figure/unnamed-chunk-2-1.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" height="80%"/>
+
+</section>
+<section style="background-color:white;color:black">
+<h4>Code :</h4>
+<div class="chunk" id="unnamed-chunk-2"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">ggplot</span>()+<span class="hl kwd">geom_bar</span>(data=gg,<span class="hl kwd">aes</span>(x=manufacturer,y=cty))+
+  <span class="hl kwd">scale_x_discrete</span>(<span class="hl str">&quot;Manufacturer&quot;</span>)+
+  <span class="hl kwd">scale_y_continuous</span>(<span class="hl str">&quot;Miles / <span class="hl kwd">Gallon</span> (City conditions)&quot;</span>)
+</pre></div>
+
+</section>
+
+<section style="background-color:white;color:black">
+
+<h1>Ordre ? bar chart trié</h1>
+<img src="figure/unnamed-chunk-3-1.png" title="plot of chunk unnamed-chunk-3" alt="plot of chunk unnamed-chunk-3"height="80%"/>
+
+
+</section>
+<section style="background-color:white;color:black">
+<h4>Code :</h4>
+<div class="chunk" id="unnamed-chunk-3"><div class="rcode"><div class="source"><pre class="knitr r">gg$manufacturer=<span class="hl kwd">factor</span>(gg$manufacturer,levels=gg$manufacturer[<span class="hl kwd">order</span>(gg$cty)])
+<span class="hl kwd">ggplot</span>()+<span class="hl kwd">geom_bar</span>(data=gg,<span class="hl kwd">aes</span>(x=manufacturer,y=cty))+
+  <span class="hl kwd">scale_x_discrete</span>(<span class="hl str">&quot;Manufacturer&quot;</span>)+
+  <span class="hl kwd">scale_y_continuous</span>(<span class="hl str">&quot;Miles / <span class="hl kwd">Gallon</span> (City conditions)&quot;</span>)
+</pre></div>
+
+</section>
+
+<section style="background-color:white;color:black">
+<h1>Horizontal ?</h1>
+
+<img src="figure/unnamed-chunk-4-1.png" title="plot of chunk unnamed-chunk-4" alt="plot of chunk unnamed-chunk-4" height="80%" />
+</section>
+<section style="background-color:white;color:black">
+<h4>Code :</h4>
+
+<div class="chunk" id="unnamed-chunk-4"><div class="rcode"><div class="source"><pre class="knitr r">gg$manufacturer=<span class="hl kwd">factor</span>(gg$manufacturer,levels=gg$manufacturer[<span class="hl kwd">order</span>(gg$cty)])
+<span class="hl kwd">ggplot</span>()+<span class="hl kwd">geom_bar</span>(data=gg,<span class="hl kwd">aes</span>(x=manufacturer,y=cty))+
+  <span class="hl kwd">scale_x_discrete</span>(<span class="hl str">&quot;Manufacturer&quot;</span>)+
+  <span class="hl kwd">scale_y_continuous</span>(<span class="hl str">&quot;Miles / <span class="hl kwd">Gallon</span> (City conditions)&quot;</span>)+<span class="hl kwd">coord_flip</span>()
+</pre></div>
+
+</section>
+
+
+
+<section style="padding-top:5em;text-align:center">
+<h1 class="red"> 2 variables catégorielles <h1><h1>et</h1><h1 span class="blue"> une quantité</h1>
+<h4 style="text-align:left;padding-top:2em">Ex :<br> consomation par type de véhicule et type de moteur</h4>
+</section>
+
+<section style="background-color:white;color:black">
+<h1>Groupes , facettes</h1>
+<img src="figure/unnamed-chunk-5-1.png" title="plot of chunk unnamed-chunk-5" alt="plot of chunk unnamed-chunk-5" height="60%">
+<div class="chunk" id="unnamed-chunk-5"><div class="rcode"><div class="source"><pre class="knitr r">gg=<span class="hl kwd">aggregate</span>(mpg$cty,<span class="hl kwd">list</span>(mpg$class,mpg$cyl),mean)
+<span class="hl kwd">names</span>(gg)=<span class="hl kwd">c</span>(<span class="hl str">&quot;class&quot;</span>,<span class="hl str">'cyl'</span>,<span class="hl str">&quot;cty&quot;</span>)
+<span class="hl kwd">ggplot</span>()+<span class="hl kwd">geom_bar</span>(data=gg,<span class="hl kwd">aes</span>(x=class,y=cty))+
+  <span class="hl kwd">scale_x_discrete</span>(<span class="hl str">&quot;Manufacturer&quot;</span>)+
+  <span class="hl kwd">scale_y_continuous</span>(<span class="hl str">&quot;Miles / <span class="hl kwd">Gallon</span> (City conditions)&quot;</span>)+
+  <span class="hl kwd">facet_grid</span>( ~ cyl)+ <span class="hl kwd">theme</span>(axis.text.x=<span class="hl kwd">element_text</span>(angle=90))
+</pre></div>
+</section>
+
+<section style="background-color:white;color:black">
+<h1>Double encodage ?</h1>
+<img src="figure/unnamed-chunk-6-1.png" title="plot of chunk unnamed-chunk-6" alt="plot of chunk unnamed-chunk-6" height="60%">
+
+<div class="chunk" id="unnamed-chunk-6"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">ggplot</span>()+<span class="hl kwd">geom_bar</span>(data=gg,<span class="hl kwd">aes</span>(x=class,y=cty,fill=class))+
+  <span class="hl kwd">scale_x_discrete</span>(<span class="hl str">&quot;Manufacturer&quot;</span>)+
+  <span class="hl kwd">scale_y_continuous</span>(<span class="hl str">&quot;Miles / <span class="hl kwd">Gallon</span> (City conditions)&quot;</span>)+
+  <span class="hl kwd">facet_grid</span>(. ~ cyl)+ <span class="hl kwd">theme</span>(axis.text.x=<span class="hl kwd">element_text</span>(angle=90))
+</pre></div>
+</section>
+
+
+
+<section style="background-color:white;color:black">
+<h1>Variante ?</h1>
+<img src="figure/unnamed-chunk-new.png" title="plot of chunk unnamed-chunk-2" alt="plot of chunk unnamed-chunk-2" height="80%" />
+</section>
+<section style="background-color:white;color:black">
+<h4>Code :</h4>
+<div class="chunk" id="unnamed-chunk-1"><div class="rcode"><div class="source"><pre class="knitr r">
+ordlev=<span class="hl kwd">aggregate</span>(mpg$cty,<span class="hl kwd">list</span>(mpg$class),mean)
+levs=<span class="hl kwd">rev</span>(<span class="hl kwd">as.character</span>(ordlev$Group.1[<span class="hl kwd">order</span>(ordlev$x)]))
+gg$class_permuted=<span class="hl kwd">factor</span>(gg$class,levels=levs)
+gg$ctyR=<span class="hl kwd">round</span>(gg$cty)
+</pre></div>
+</div></div>
+  
+<div class="chunk" id="unnamed-chunk-2"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">ggplot</span>()+<span class="hl kwd">geom_tile</span>(data=gg,<span class="hl kwd">aes</span>(x=class_permuted,y=<span class="hl kwd">factor</span>(cyl,levels=4:8),
+  fill=<span class="hl kwd">cut</span>(cty,<span class="hl kwd">c</span>(<span class="hl kwd">seq</span>(11,23,by=2)))))+
+  <span class="hl kwd">scale_x_discrete</span>(<span class="hl str">&quot;Class&quot;</span>)+
+  <span class="hl kwd">scale_y_discrete</span>(<span class="hl str">&quot;# cylindres&quot;</span>,breaks=4:8)+
+  <span class="hl kwd">scale_fill_brewer</span>(palette=<span class="hl str">&quot;PRGn&quot;</span>,<span class="hl str">&quot;Consomation&quot;</span>)+
+  <span class="hl kwd">geom_text</span>(data=gg,<span class="hl kwd">aes</span>(x=class_permuted,y=<span class="hl kwd">factor</span>(cyl,levels=4:8),label=ctyR))+<span class="hl kwd">theme_bw</span>()
+</pre></div>
+</section>
+
+<section style="background-color:white;color:black">
+<h1>Variante ?</h1>
+<img src="./images/ggnew.png" height="80%" />
+</section>
+<section>
+<h4>Code :</h4>
+<pre><code class="r">gg=aggregate(mpg$cty,list(mpg$manufacturer,mpg$class),mean)
+names(gg)=c("manufacturer","class","cty")
+ordlev=aggregate(mpg$cty,list(mpg$class),mean)
+levs=rev(as.character(ordlev$Group.1[order(ordlev$x)]))
+gg$class_permuted=factor(gg$class,levels=levs)
+
+ordlev=aggregate(mpg$cty,list(mpg$manufacturer),mean)
+levs=as.character(ordlev$Group.1[order(ordlev$x)])
+gg$manufacturer_permuted=factor(gg$manufacturer,levels=levs)
+
+gg$ctyR=round(gg$cty)
+ggplot()+geom_tile(data=gg,aes(x=class_permuted,y=manufacturer_permuted,
+                               fill=cut(cty,c(seq(11,25,by=2)))))+
+  scale_x_discrete("Class")+
+  scale_y_discrete("Manufacturer")+
+  scale_fill_brewer(palette="PRGn","Consomation")+
+  geom_text(data=gg,aes(x=class_permuted,y=manufacturer_permuted,label=ctyR))+theme_bw()
+</code></pre>  
+</section>
+
+
+
+<section style="padding-top:5em;text-align:center">
+<h1> La ligne : </h1>
+<h1 class="green"> 1 variable numérique</h1> <h1>en fonction du</h1><h1 class="purple"> temps</h1>
+</section>
+
+<section style="background-color:white;color:black">
+<h1>Données Vélib' aggrégées :</h1>
+<div class="chunk" id="unnamed-chunk-7"><div class="rcode"><div class="source"><pre class="knitr r">data=<span class="hl kwd">fromJSON</span>(file=<span class="hl str">&quot;http://vlsstats.ifsttar.fr/data/temporalstats_Paris.json&quot;</span>)
+gg=<span class="hl kwd">sapply</span>(data,<span class="hl kwd"><span class="hl kwa">function</span></span>(x){<span class="hl kwd">c</span>(x$<span class="hl str">'_id'</span>,x$value$total_available_bikes)})
+ggs=<span class="hl kwd">data.frame</span>(<span class="hl kwd">head</span>(<span class="hl kwd">t</span>(gg),500))
+<span class="hl kwd">names</span>(ggs)=<span class="hl kwd">c</span>(<span class="hl str">'time'</span>,<span class="hl str">'nbbikes'</span>)</pre></div>
+</section>
+
+<section style="background-color:white;color:black">
+<h1>Ordre naturel imposé par le temps</h1>
+<img src="figure/unnamed-chunk-7-1.png" title="plot of chunk unnamed-chunk-7" alt="plot of chunk unnamed-chunk-7" height="60%">
+
+<div class="chunk" id="unnamed"><div class="rcode"><div class="source"><pre class="knitr r">
+<span class="hl kwd">ggplot</span>(data=ggs,<span class="hl kwd">aes</span>(x=time,y=nbbikes))+<span class="hl kwd">geom_point</span>()
+</pre></div>
+</section>
+
+
+<section style="background-color:white;color:black">
+<h1>Ordre naturel imposé par le temps</h1>
+<img src="figure/unnamed-chunk-8-1.png" title="plot of chunk unnamed-chunk-8" alt="plot of chunk unnamed-chunk-8" height="60%"/>
+<div class="chunk" id="unnamed-chunk-8"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">ggplot</span>(data=ggs,<span class="hl kwd">aes</span>(x=time,y=nbbikes))+<span class="hl kwd">geom_line</span>()
+</pre></div>
+
+</section>
+
+<section style="background-color:white;color:black">
+<h1>Aspect ratio</h1>
+<img src="figure/unnamed-chunk-9-1.png" title="plot of chunk unnamed-chunk-9" alt="plot of chunk unnamed-chunk-9" height="60%">
+<div class="chunk" id="unnamed-chunk-9"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">ggplot</span>(data=ggs,<span class="hl kwd">aes</span>(x=time,y=nbbikes))+<span class="hl kwd">geom_line</span>()
+</pre></div>
+
+</section>
+
+<section style="background-color:white;color:black">
+<h1>Aspect ratio</h1>
+<img src="figure/unnamed-chunk-10-1.png" title="plot of chunk unnamed-chunk-10" alt="plot of chunk unnamed-chunk-10" height="60%">
+<div class="chunk" id="unnamed-chunk-10"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">ggplot</span>(data=ggs,<span class="hl kwd">aes</span>(x=time,y=nbbikes))+<span class="hl kwd">geom_line</span>()
+</pre></div>
+</section>
+
+<section style="background-color:white;color:black">
+<h1>Aspect ratio, 45°</h1>
+Heuristic: use the aspect ratio that results in an average line slope of 45°.
+<img src="images/aspectratio.png" height="55%">
+<h4 class="orange" style="text-align:center">Cleveland, William S., Marylyn E. McGill, and Robert McGill. "The shape parameter of a two-variable graph." Journal of the American Statistical Association 83.402 (1988): 289-300.</h4>
+</section>
+
+
+
+
+<section style="background-color:white;color:black">
+<h1>Aire + Echelle</h1>
+<img src="figure/unnamed-chunk-11-1.png" title="plot of chunk unnamed-chunk-11" alt="plot of chunk unnamed-chunk-11" height="60%">
+<div class="chunk" id="unnamed-chunk-11"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">ggplot</span>(data=ggs,<span class="hl kwd">aes</span>(x=time,y=nbbikes))+<span class="hl kwd">geom_area</span>()
+</pre></div>
+</section>
+
+<section style="background-color:white;color:black">
+<h1>Changement de point de vue</h1>
+<img src="figure/unnamed-chunk-12-1.png" title="plot of chunk unnamed-chunk-12" alt="plot of chunk unnamed-chunk-12" height="60%">
+<div class="chunk" id="unnamed-chunk-12"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">ggplot</span>(data=ggs,<span class="hl kwd">aes</span>(x=time,y=<span class="hl kwd">max</span>(nbbikes)-nbbikes))+<span class="hl kwd">geom_area</span>()
+</pre></div>
+
+</section>
+<section style="padding-top:5em;text-align:center">
+<h1 class="green"> 1 variable numérique</h1> <h1>en fonction du</h1><h1 class="purple"> temps</h1><h1 class="purple"> + catégories</h1>
+</section>
+
+
+<section style="background-color:white;color:black">
+
+<h1> Données Vélib par stations</h1>
+<div class="chunk" id="unnamed-chunk-13"><div class="rcode"><div class="source"><pre class="knitr r">data=<span class="hl kwd">fromJSON</span>(file=<span class="hl str">&quot;http://vlsstats.ifsttar.fr/data/spatiotemporalstats_London.json&quot;</span>)
+</pre></div>
+
+<h4>Mise en forme</h4>
+<div class="source"><pre class="knitr r">extract = <span class="hl kwd"><span class="hl kwa">function</span></span>(x){<span class="hl kwd">data.frame</span>( x$<span class="hl str">'_id'</span>, x$download_date,x$available_bikes )}
+gg=<span class="hl kwd">do.call</span>(rbind,<span class="hl kwd">lapply</span>(data,extract))
+<span class="hl kwd">names</span>(gg)=<span class="hl kwd">c</span>(<span class="hl str">'id'</span>,<span class="hl str">'time'</span>,<span class="hl str">'nbbikes'</span>)
+</pre></div>
+<h4>Sélection de 3 stations</h4>
+<div class="source"><pre class="knitr r">
+ggs =<span class="hl kwd">subset</span>(gg,gg$id %<span class="hl kwa">in</span>% <span class="hl kwd">c</span>(<span class="hl str">'383'</span>,<span class="hl str">'610'</span>,<span class="hl str">'701'</span>))
+</pre></div>
+</div></div>
+</section>
+
+<section style="background-color:white;color:black">
+<div class="chunk" id="unnamed-chunk-14"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">ggplot</span>(data=ggs,<span class="hl kwd">aes</span>(x=time,y=nbbikes,group=id,color=<span class="hl kwd">factor</span>(id)),size=2)+<span class="hl kwd">geom_line</span>()
+</pre></div>
+<img src="figure/unnamed-chunk-14-1.png" title="plot of chunk unnamed-chunk-14" alt="plot of chunk unnamed-chunk-14" height="60%">
+<h1> Line charts superposés</h1>
+</section>
+
+
+<section style="background-color:white;color:black">
+<div class="chunk" id="unnamed-chunk-15"><div class="rcode"><div class="source"><pre class="knitr r">
+<span class="hl com"># selection d'une dizaine de stations</span>
+ggs =<span class="hl kwd">subset</span>(gg,gg$id %<span class="hl kwa">in</span>% <span class="hl kwd">c</span>(<span class="hl str">'383'</span>,<span class="hl str">'610'</span>,<span class="hl str">'701'</span>,<span class="hl str">'615'</span>,<span class="hl str">'120'</span>,<span class="hl str">'803'</span>,<span class="hl str">'1000'</span>,<span class="hl str">'11'</span>,<span class="hl str">'160'</span>,<span class="hl str">'450'</span></span>))
+<span class="hl kwd">ggplot</span>(data=ggs,<span class="hl kwd">aes</span>(x=time,y=nbbikes,group=id,color=<span class="hl kwd">factor</span>(id)),size=2)+<span class="hl kwd">geom_line</span>()
+</pre></div>
+<img src="figure/unnamed-chunk-15-1.png" title="plot of chunk unnamed-chunk-15" alt="plot of chunk unnamed-chunk-15" height="60%">
+<h1> Nombre de catégories ?</h1>
+</section>
+
+<section style="background-color:white;color:black">
+<div class="chunk" id="unnamed-chunk-16"><div class="rcode"><div class="source"><pre class="knitr r"><span class="hl kwd">ggplot</span>(data=ggs,<span class="hl kwd">aes</span>(x=time,y=nbbikes,group=id,color=<span class="hl kwd">factor</span>(id)),size=2)+
+  <span class="hl kwd">geom_line</span>()+<span class="hl kwd">facet_grid</span>(id ~ .)
+</pre></div>
+<img src="figure/unnamed-chunk-16-1.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" width="50%"></img>
+<h1>Small multiples</h1>
+</section>
+
+
+
+<section style="padding-top:5em;text-align:center">
+<h1 class="red"> 2 variables numériques</h1><h1 class="green"> + catégories </h1>
+</section>
+
+<section style="background-color:white;color:black">
+<h1> Scatter plot + couleurs </h1>
+<img src="./images/gggram4.png" height="70%"/>
+<pre><code class="r">ggplot(mpg)+geom_point(aes(x=cty,y=hwy,color=class))
+</pre></code>
+</section>
+
+
+
+<section style="padding-top:5em;text-align:center">
+<h1 class="red"> 3 variables numériques</h1><h1 class="green"> + catégories </h1>
+</section>
+
+
+<section style="background-color:white;color:black">
+<h1> Scatter plot + size + couleurs </h1>
+<img src="./images/ggram5.png" height="70%"/>
+<pre><code class="r">ggplot(mpg,aes(x=cty,y=hwy,size=displ,color=class))+geom_point()
+</pre></code>
+</section>
+
+<section style="background-color:white;color:black">
+<h1> Scatter plot + size + couleurs ! échelle</h1>
+<img src="./images/ggram6.png" height="70%"/>
+<pre><code class="r">ggplot(mpg,aes(x=cty,y=hwy,size=displ,color=class))+geom_point()+scale_area()
+</pre></code>
+</section>
+
+<section style="background-color:white;color:black">
+<h1> Taille des cercles : échelle aire ou rayon ?</h1>
+
+<h4> Rayon </h4>
+<svg id="g1" width="500px" height="150px">
+</svg>
+<script>
+var svg = d3.select("#g1")
+svg.selectAll("circle").data([5, 25, 50]).enter().append("circle").attr("cx",function(d,i){return 20+i*100}).attr("cy",52).attr("r",function(d){return d}).style("fill","#2ca02c").style("stroke","#165016").style("stroke-width","2px")
+svg.selectAll("text").data([5, 25, 50]).enter().append("text").attr("x",function(d,i){return 20+i*100}).attr("y",125).html(function(d){return d})
+</script>
+<h4> Aire </h4>
+
+<svg id="g2" width="500px" height="150px">
+</svg>
+<script>
+var svg = d3.select("#g2")
+svg.selectAll("circle").data([5, 25, 50]).enter().append("circle").attr("cx",function(d,i){return 20+i*100}).attr("cy",52).attr("r",function(d){return Math.sqrt(d)*3}).style("fill","#2ca02c").style("stroke","#165016").style("stroke-width","2px")
+svg.selectAll("text").data([5, 25, 50]).enter().append("text").attr("x",function(d,i){return 20+i*100}).attr("y",125).html(function(d){return d})
+</script>
+
+</section>
+
+
+<section style="padding-top:5em;text-align:center">
+<h1>Principes :</h1>
+<h1 class="red">Eviter de mentir,<br> Lie Factor</h1>
+
+$$\textrm{Lie factor} = \frac{\textrm{visual effect size}}{\textrm{data effect size}}$$
+</section>
+
+
+
+<section style="background-color:white;color:black">
+<h1 class="red">Lie factor :</h1>
+$$\textrm{data effect size} = \frac{27.5 - 18}{18} \times 100 = 53 \%$$
+<img src="./images/tuft2n.png" height="40%"/>
+<h4 class="orange" style="text-align:center">Edward Tufte, The Visual Display of Quantitative Information, Cheshire, CT, Graphics Press,‎ 2001, 2e éd. (1re éd. 1983)</h4>
+</section>
+
+
+<section style="background-color:white;color:black">
+<h1 class="red">Lie factor :</h1>
+$$\textrm{visual effect size} = \frac{5.3 -0.6}{0.6} \times 100 = 783 \%$$
+<img src="./images/tuft2n.png" height="40%"/>
+<h4 class="orange" style="text-align:center">Edward Tufte, The Visual Display of Quantitative Information, Cheshire, CT, Graphics Press,‎ 2001, 2e éd. (1re éd. 1983)</h4>
+</section>
+
+<section style="background-color:white;color:black">
+<h1 class="red">Lie factor :</h1>
+$$\textrm{Lie factor} = \frac{783}{53} = 14.8$$
+<img src="./images/tuft2n.png" height="40%"/>
+<h4 class="orange" style="text-align:center">Edward Tufte, The Visual Display of Quantitative Information, Cheshire, CT, Graphics Press,‎ 2001, 2e éd. (1re éd. 1983)</h4>
+</section>
+
+
+<section style="background-color:white;color:black">
+<h1 class="red">Lie factor : 9.4</h1>
+<img src="./images/tuft1.gif" height="70%"/>
+<h4 class="orange" style="text-align:center">Edward Tufte, The Visual Display of Quantitative Information, Cheshire, CT, Graphics Press,‎ 2001, 2e éd. (1re éd. 1983)</h4>
+</section>
+
+<section style="padding-top:5em;text-align:center">
+<h1>Principes :</h1>
+<h1 class="green">Augmenter la densité de données</h1>
+$$\textrm{graph data density} = \frac{\textrm{number of entries in data matrix}}{\textrm{area of data display}}$$
+</section>
+
+
+
+<section style="background-color:white;color:black">
+<h1 class="red">Data density :</h1>
+<h4>Eviter les graphique à faible densité</h4>
+<img src="./images/tuft3n.png" height="60%"/>
+<h4 class="orange" style="text-align:center">Edward Tufte, The Visual Display of Quantitative Information, Cheshire, CT, Graphics Press,‎ 2001, 2e éd. (1re éd. 1983)</h4>
+</section>
+
+<section style="background-color:white;color:black">
+<h1 class="red">Data density :</h1>
+<h4>Meilleure densité de donnée</h4>
+<img src="./images/tuft4.png" height="50%"/>
+<h4 class="orange" style="text-align:center">Edward Tufte, The Visual Display of Quantitative Information, Cheshire, CT, Graphics Press,‎ 2001, 2e éd. (1re éd. 1983)</h4>
+</section>
+
+
+<section>
+
+<h1 class="red">Bonnes pratiques :</h1>
+<ul>
+<li> éviter de mentir !
+<li> faire des graphiques riches
+<li> avec des encodages adaptés
+<li> de bonnes échelles, (!couleurs, !aires) 
+<li> des axes labelisés
+<li> ordre des facteurs
+<li> aspect ratio
+<li> format d'enregistrements pdf, svg // png,jpg
+</ul>
+
+</section>
+
+
+
+
+<section style="padding-top:5em">
+<h1 class="green">ggplot</h1>
+<h1> gg = <span class="red"> grammar of graphics </span></h1> 
+<ul>
+<li> "The Grammar of Graphics" (Wilkinson, Annand and Grossman, 2005)
+<li> grammaire &#8594; même type de description pour des graphique différents 
+</ul>
+
+</section>
+<section class="outil">
+
+<h1>ggplot</h1>
+
+<h4>Composants de la grammaires :</h4>
+</ul>
+<li> <span class="red">data and aesthetic mappings</span>,<br>
+ex : f(data) &#8594; x position, y position, size, shape, color 
+<li> <span class="red">geometric objects</span>,<br>
+ex : points, lines, bars, texts 
+<li> <span class="red">scales</span>,<br>
+ex : f([0, 100]) &#8594; [0, 5] px
+<li> <span class="red">facet specification</span>,<br>
+ex : segmentation des données suivant un ou plusieurs facteurs
+<li> <span class="red">statistical transformations</span>,<br> 
+ex : moyenne, comptage, régression
+<li> <span class="red">the coordinate system</span>.
+</ul>
+</section>
+
+<section class="outil">
+<h1>ggplot</h1>
+<h4>Création d'un graphique :</h4>
+</ul>
+<li> ajout successif de layers (calques) 
+<li> définissant un mapping des données vers leurs représentation
+<li> (+ optionel) définition de transformations statistique 
+<li> (+ optionel) définition des échelles
+<li> (+ optionel) gestion du thème des titre ...
+</ul>
+<br><br>
+<h4 class="red">! Données toujours sous forme de data.frame bien formatées</h4>
+
+</section>
+
+
+
+<section>
+
+<h1 class="green">ggplot, géométries</h1>
+
+
+
+<h4>Création d'un graphique :</h4>
+</ul>
+<li> ajout successif de layers (calques)<br>
+<pre><code class="r">+geom_line()</pre></code>
+<li> définissant un mapping des données vers leurs représentation
+<pre><code class="r">aes(x=a,y=b,...)</pre></code>
+</ul>
+<h4>Exemple</h4>
+<pre><code class="r">library(ggplot2)
+ggplot(mpg)+geom_point(aes(x=cty,y=hwy,color=manufacturer,shape=factor(cyl)))
+ggplot(mpg,aes(x=cty,y=hwy,color=manufacturer,shape=factor(cyl)))+geom_jitter()
+</pre></code>
+</section>
+
+
+<section style="background-color:white;color:black">
+<img src="./images/ggplot2.png" height="80%"/>
+<pre><code class="r">ggplot(mpg,aes(x=cty,y=hwy,color=manufacturer,shape=factor(cyl)))+geom_point()
+</pre></code>
+</section>
+
+
+<section style="background-color:white;color:black">
+<img src="./images/ggplot1.png" height="80%"/>
+<pre><code class="r">ggplot(mpg,aes(x=cty,y=hwy,color=manufacturer,shape=factor(cyl)))+geom_jitter()
+</pre></code>
+</section>
+
+<section style="background-color:white;color:black">
+<img src="./images/ggplot9.png" height="80%"/>
+<pre><code class="r">ggplot(mpg,aes(x=cty,y=hwy,color=manufacturer,shape=factor(cyl)))+geom_jitter()+
+    geom_abline(intercept=reg$coefficients[1],slope=reg$coefficients[2],color="red")
+</pre></code>
+</section>
+
+<section style="background-color:white;color:black">
+<img src="./images/ggplot3.png" height="80%"/>
+<pre><code class="r">ggplot(mpg,aes(x=cty,fill=manufacturer))+geom_histogram(binwidth=2)
+</pre></code>
+</section>
+
+<section style="background-color:white;color:black">
+<img src="./images/ggplot10.png" height="80%"/>
+<pre><code class="r">ggplot(mpg,aes(y=cty,x=manufacturer))+geom_violin()
+</pre></code>
+</section>
+
+
+
+<section>
+<h1 class="green">ggplot, échelles</h1>
+<h4>Création d'un graphique :</h4>
+</ul>
+<li> ajout successif de layers (calques)<br>
+<pre><code class="r">+geom_line()</pre></code>
+<li> définissant un mapping des données vers leurs représentation
+<pre><code class="r">aes(x=a,y=b,...)</pre></code>
+<li> en fixant les échelles
+<pre><code class="r">scale_fill_brewer(palette=3,type="qual")
+scale_x_continuous(limits=c(0,45),breaks=seq(0,45,2))</pre></code>
+</ul>
+
+<h4>Exemple</h4>
+<pre><code class="r">ggplot(mpg,aes(x=cty,y=hwy,color=manufacturer,shape=factor(cyl)))+geom_jitter()+
+  scale_x_continuous(limits=c(0,45),breaks=seq(0,45,2))
+ggplot(mpg,aes(x=cty,fill=manufacturer))+geom_histogram(binwidth=2)
+  +scale_fill_brewer(palette=3,type="qual")
+</pre></code>
+
+</section>
+
+
+
+<section style="background-color:white;color:black">
+<img src="./images/ggplot8.png" height="80%"/>
+<pre><code class="r">ggplot(mpg,aes(x=cty,y=hwy,color=manufacturer,shape=factor(cyl)))+geom_jitter()+
+    scale_x_continuous(limits=c(0,45),breaks=seq(0,45,2))
+</pre></code>
+</section>
+
+
+<section style="padding-top:5em;text-align:center;background-color:white;color:black">
+<h1><span class="green">Echelles</span> <br><span class="orange">de</span><br> <span class="purple">couleurs</span></h1>
+</section>
+
+<section style="background-color:white;color:black">
+<a href="http://colorbrewer2.org/"><h1>http://colorbrewer2.org/</h1></a>
+<iframe src="http://colorbrewer2.org" width="100%" height="1000px"style="padding:0px;margin:0px"></iframe>
+</section>
+
+
+
+
+
+<section style="background-color:white;color:black">
+<img src="./images/ggplot7.png" height="80%"/>
+<pre><code class="r">ggplot(mpg,aes(x=cty,fill=factor(class)))+geom_histogram(binwidth=1)
++scale_fill_brewer("Class",palette=3,type="qual")
++scale_x_continuous("Miles / Galons (city conditions)")
+</pre></code>
+</section>
+
+
+<section style="background-color:white;color:black">
+<img src="./images/ggplot6.png" height="80%"/>
+<pre><code class="r">mpg$class_permuted=factor(mpg$class,levels=levels(mpg$class)[c(6,2,3,4,1,5,7)])
+ggplot(mpg,aes(x=cty,fill=factor(class_permuted)))+geom_histogram(binwidth=1)
++scale_fill_brewer("Class",palette=3,type="qual")
++scale_x_continuous("Miles / Galons (city conditions)")
+</pre></code>
+</section>
+
+<section>
+<h1>Ordonnée ? Quel ordre ?</h1>
+
+<h4> a priori</h4>
+<pre><code class="r">mpg$class_permuted=factor(mpg$class,levels=levels(mpg$class)[c(6,2,3,4,1,5,7)])
+</pre></code>
+
+<h4> moyenne des consomations en ville</h4>
+<pre><code class="r">ctyByClass=aggregate(mpg$cty,list(mpg$class),mean)
+ctyByClass[order(ctyByClass$x),]
+levs=as.character(rev(ctyByClass$Group.1[order(ctyByClass$x)]))
+mpg$class_permuted=factor(mpg$class,levels=levs)
+</pre></code>
+
+
+<h4> mediane des consomations en ville</h4>
+<pre><code class="r">ctyByClass=aggregate(mpg$cty,list(mpg$class),median)
+ctyByClass[order(ctyByClass$x),]
+levs=as.character(rev(ctyByClass$Group.1[order(ctyByClass$x)]))
+mpg$class_permuted=factor(mpg$class,levels=levs)
+</pre></code>
+
+</section>
+
+
+<section style="background-color:white;color:black">
+<h1>a priori</h1>
+<img src="./images/ggplot6.png" height="60%"/>
+<pre><code class="r">mpg$class_permuted=factor(mpg$class,levels=levels(mpg$class)[c(6,2,3,4,1,5,7)])
+ggplot(mpg,aes(x=cty,fill=factor(class_permuted)))+geom_histogram(binwidth=1)
++scale_fill_brewer("Class",palette=3,type="qual")
++scale_x_continuous("Miles / Galons (city conditions)")
+</pre></code>
+</section>
+
+
+<section style="background-color:white;color:black">
+<h1>tri / la moyenne</h1>
+<img src="./images/gghist1.png" height="60%"/>
+<pre><code class="R">ggplot(mpg,aes(x=cty,fill=factor(class_permuted)))+geom_histogram(binwidth=1)
++scale_fill_brewer("Class",palette=3,type="qual")
++scale_x_continuous("Miles / Galons (city conditions)")
+</pre></code>
+</section>
+
+<section style="background-color:white;color:black">
+<h1>tri / la mediane</h1>
+<img src="./images/gghist2.png" height="60%"/>
+<pre><code class="r">ggplot(mpg,aes(x=cty,fill=factor(class_permuted)))+geom_histogram(binwidth=1)
++scale_fill_brewer("Class",palette=3,type="qual")
++scale_x_continuous("Miles / Galons (city conditions)")
+</pre></code>
+</section>
+
+<section style="background-color:white;color:black">
+<h1>Autre proposition ?</h1>
+<img src="./images/gghist5.png" height="60%"/>
+<pre><code class="r">ggplot(mpg,aes(y=cty,x=class_permuted))+geom_boxplot()+scale_x_discrete("Class")
+</pre></code>
+</section>
+
+
+<section style="background-color:white;color:black">
+<h1>Autre proposition ?</h1>
+<img src="./images/gghist6.png" height="60%"/>
+<pre><code class="r">ggplot(mpg,aes(y=cty,x=class_permuted))+geom_violin()+scale_x_discrete("Class")
+</pre></code>
+</section>
+
+
+<section>
+<h1 class="green">ggplot, facettes</h1>
+<h4>Création d'un graphique :</h4>
+</ul>
+<li> ajout successif de layers (calques)<br>
+<pre><code class="r">+geom_line()</pre></code>
+<li> définissant un mapping des données vers leurs représentation
+<pre><code class="r">aes(x=a,y=b,...)</pre></code>
+<li> en fixant les échelles
+<pre><code class="r">scale_fill_brewer(palette=3,type="qual")
+scale_x_continuous(limits=c(0,45),breaks=seq(0,45,2))</pre></code>
+<li> en créant des facettes
+<pre><code class="r">facet_grid(. ~ cyl)</pre></code>
+
+</ul>
+</section>
+
+
+<section style="background-color:white;color:black">
+<img src="./images/gghist4.png" height="60%"/>
+<pre><code class="r">ggplot(mpg,aes(x=cty,fill=factor(class_permuted)))+
+geom_histogram(binwidth=1,aes(x=cty,fill=class_permuted))+
+scale_fill_brewer("Class",palette=3,type="seq")+
+scale_x_continuous("Miles / Galons (city conditions)")+
+facet_grid(. ~ class_permuted)
+</pre></code>
+</section>
+
+
+<section style="background-color:white;color:black">
+<img src="./images/ggplot5.png" height="80%"/>
+<pre><code class="r">ggplot(mpg,aes(x=cty,fill=factor(class)))+geom_histogram(binwidth=1)+facet_grid(. ~ cyl)
++scale_fill_brewer(palette=3,type="qual")
+</pre></code>
+</section>
+
+<section>
+<h1 class="green">ggplot, stats</h1>
+<h4>Création d'un graphique :</h4>
+</ul>
+<li> ajout successif de layers (calques)<br>
+<pre><code class="r">+geom_line()</pre></code>
+<li> définissant un mapping des données vers leurs représentation
+<pre><code class="r">aes(x=a,y=b,...)</pre></code>
+<li> en fixant les échelles
+<pre><code class="r">scale_fill_brewer(palette=3,type="qual")
+scale_x_continuous(limits=c(0,45),breaks=seq(0,45,2))</pre></code>
+<li> en ajoutant des stats
+<pre><code class="r">stat_density2d()</pre></code>
+
+</ul>
+</section>
+
+
+<section style="background-color:white;color:black">
+<img src="./images/ggplot11.png" height="85%"/>
+<pre><code class="r">ggplot(mpg,aes(y=cty,x=hwy))+geom_point(color="blue")+stat_density2d()
+</pre></code>
+</section>
+
+
+<section style="background-color:white;color:black">
+<img src="./images/ggplot12.png" height="85%"/>
+<pre><code class="r">ggplot(mpg,aes(y=cty,x=hwy))+geom_point(color="blue")+stat_smooth()
+</pre></code>
+</section>
+
+
+<section style="background-color:white;color:black">
+<img src="./images/ggplot13.png" height="85%"/>
+
+<pre><code class="r">install.packages("hexbin")
+ggplot(mpg,aes(y=cty,x=hwy))+stat_binhex()
+</pre></code>
+</section>
+
+<section style="padding-top:5em" >
+<h1 class="purple">Données spatiales</h1>
+<h1 class="green">les cartes</h1>
+<h1>install.packages("ggmap")</h1>
+
+</section>
+
+
+
+<section style="background-color:white;color:black">
+<a href="http://overpass-turbo.eu/?q=LyoKVGhpcyBoYcSGYmVlbiBnxI1lcmF0ZWQgYnkgdGhlIG92xJJwxIlzLXR1cmJvIHdpemFyZC7EgsSdxJ9yaWdpbmFsIHNlxLBjaMSsxIk6CsOiwoDCnGFtxI1pdMSaPcSYxLDEtiDFi8WNxY8gxZFyZXN0YcSoYW50xYjCnQoqLwpbb3V0Ompzb25dW3RpxYzFq8WtMjVdOwovL8SPxJTEnXIgxZtzdWx0cwooCiAgxb8gcXXEksSaxKNydCBmb3I6IMWIxYrFjG7Fjnk9YsSwxaTGjiBub2RlWyLFlsajxY8iPSLGp3IiXSh7e2LEqnh9fSnFvcaPd2F5xrDGssakxrXGt8SwxrrGvMa-x4DHgseExqrFm2zElGnFsceKxqLHjMa2xrjHkMa9xr9vx4HHg8eFxpDGgMaTxpUgxpfGmcabxp3Gn8WJx4vFjz3GhsWexaDFosapxo_GrMaux5zFl3nHjce2xZ_Ek8Wix6HHksekx5THp8eHx4nGscedxrTGtsiCx7h0yIbHo8elx5XGj8eXx5nHm8iNx7_IgcWcx7fIhMiTxrvHoseTx6YKx5XGkXDEt8WixoXFnMaIxooKxbjEmMatecW9PsW9yLJza2XEvXF0Ow&c=BI-0H65PSM"><h1>Données OSM via overpass api</h1></a>
+<h4>Les bars et restaurants de Rennes</h4>
+<iframe src="http://overpass-turbo.eu/?q=LyoKVGhpcyBoYcSGYmVlbiBnxI1lcmF0ZWQgYnkgdGhlIG92xJJwxIlzLXR1cmJvIHdpemFyZC7EgsSdxJ9yaWdpbmFsIHNlxLBjaMSsxIk6CsOiwoDCnGFtxI1pdMSaPcSYxLDEtiDFi8WNxY8gxZFyZXN0YcSoYW50xYjCnQoqLwpbb3V0Ompzb25dW3RpxYzFq8WtMjVdOwovL8SPxJTEnXIgxZtzdWx0cwooCiAgxb8gcXXEksSaxKNydCBmb3I6IMWIxYrFjG7Fjnk9YsSwxaTGjiBub2RlWyLFlsajxY8iPSLGp3IiXSh7e2LEqnh9fSnFvcaPd2F5xrDGssakxrXGt8SwxrrGvMa-x4DHgseExqrFm2zElGnFsceKxqLHjMa2xrjHkMa9xr9vx4HHg8eFxpDGgMaTxpUgxpfGmcabxp3Gn8WJx4vFjz3GhsWexaDFosapxo_GrMaux5zFl3nHjce2xZ_Ek8Wix6HHksekx5THp8eHx4nGscedxrTGtsiCx7h0yIbHo8elx5XGj8eXx5nHm8iNx7_IgcWcx7fIhMiTxrvHoseTx6YKx5XGkXDEt8WixoXFnMaIxooKxbjEmMatecW9PsW9yLJza2XEvXF0Ow&c=BI-0H65PSM" width="100%" height="1000px"style="padding:0px;margin:0px"></iframe>
+</section>
+
+<section>
+<h1>Données OSM via overpass api</h1>
+<h4>Les bars et restaurants de Rennes</h4>
+<h4>Mise en forme des données geoJSON</h4>
+<pre><code class="r">library(rjson)
+
+json = fromJSON(file="./export.geojson")
+extractCenter = function(x){
+  apply(matrix(unlist(x$geometry$coordinates),2),1,mean)
+}
+data = lapply(json$features, extractCenter)
+data = data.frame(t(matrix(unlist(data),2)))
+names(data)=c('long','lat')
+</pre></code>
+</section>
+
+
+<section class="outil">
+<h1>ggmap</h1>
+<h4> les bases : get_map(...), ggmap(...)</h4>
+<pre><code class="r">library(ggmap)
+map = get_map("Rennes",14)
+ggmap(map)+geom_point(data=data,aes(x=long,y=lat))
+ggmap(map)+stat_density2d(data=data,aes(x=long,y=lat))
+</pre></code>
+</section>
+
+
+
+<section style="background-color:white;color:black">
+<img src="./images/ggmap1.png" height="85%"/>
+<pre><code class="r">ggmap(map)+geom_point(data=data,aes(x=long,y=lat))
+</pre></code>
+</section>
+
+
+<section style="background-color:white;color:black">
+<img src="./images/ggmap2.png" height="85%"/>
+<pre><code class="r">ggmap(map)+stat_density2d(data=data,aes(x=long,y=lat))
+</pre></code>
+</section>
+<section>
+<h1> Un exemple un peu plus complet</h1>
+<pre><code class="r">mytheme= theme(axis.line=element_blank(),
+axis.text.x=element_blank(),
+axis.text.y=element_blank(),
+axis.ticks=element_blank(),
+axis.title.x=element_blank(),
+axis.title.y=element_blank(),
+panel.background=element_blank(),
+panel.border=element_blank(),
+panel.grid.major=element_blank(),
+panel.grid.minor=element_blank(),
+plot.background=element_blank())
+
+mapbw = get_map(location=apply(data,2,mean),14,color="bw")
+ggmap(mapbw)+stat_density2d(data=data,aes(x=long,y=lat),h=0.003)+
+stat_density2d(data=data,aes(long,lat,fill=..level..,alpha=..level..)
+,h=0.003,geom = "polygon")+mytheme
+</pre></code> 
+</section>
+
+
+
+<section style="background-color:white;color:black">
+<img src="./images/ggmap3bis.png" height="85%"/>
+<pre><code class="r">ggmap(mapbw)+stat_density2d(data=data,aes(x=long,y=lat))+
+stat_density2d(data=data,aes(long,lat,fill=..level..,alpha=..level..),geom="polygon")+
+mytheme
+</pre></code>
+</section>
+
+<section style="background-color:white;color:black">
+<img src="./images/ggmap3.png" height="85%"/>
+<pre><code class="r">ggmap(mapbw)+stat_density2d(data=data,aes(x=long,y=lat),h=0.003)+
+stat_density2d(data=data,aes(long,lat,fill=..level..,alpha=..level..)
+,h=0.003,geom = "polygon")+mytheme
+</pre></code>
+</section>
+
+
+<section style="background-color:white;color:black">
+<img src="./images/ggmap4.png" height="85%"/>
+<pre><code class="r">ggmap(mapbw)+stat_density2d(data=data,aes(x=long,y=lat),h=0.003,color="black")+
+stat_density2d(data=data,aes(long,lat,fill=..level..,alpha=..level..)
+,h=0.003,geom = "polygon")+scale_fill_gradientn(colours=c('black','red','white'))+
+mytheme
+</pre></code>
+</section>
+<section>
+<h1>Gestion de l'échelle</h1>
+<pre><code class="r"># modification du theme pour intégrer une légende
+mytheme=theme(legend.justification=c(0,0),legend.position=c(0,0.05))
+
+# selection des données dans le cadre
+library(sp)
+datao=data[spDists(as.matrix(data,ncols=2),matrix(center,1,2),longlat=T)&#60;1.5,]
+
+# calcul de la déformation en x et y
+x=rbind(c(center[1]+1,center[2]),c(center[1],center[2]+1))
+dists=spDists(x=x,y=matrix(center,1,2),longlat=TRUE)
+
+# carte avec échelle compréhensible
+ggmap(mapbw)+stat_density2d(data=datao,aes(x=long,y=lat),h=0.3*1/dists,color="black")+
+  stat_density2d(data=datao,aes(long,lat,fill=..level..,alpha=..level..),
+    h=0.3*1/dists,geom = "polygon")+
+  scale_fill_gradientn("Densité de \nbars, restaurant / Ha",
+    colours=c('black','red','white'),
+    breaks=seq(0,2.5,by=0.5)/dim(datao)[1]*prod(dists)*100,
+    labels=seq(0,2.5,by=0.5),
+    limits=c(0,3*prod(dists)/dim(datao)[1]*100))+
+  scale_alpha_continuous(guide="none")+mytheme
+</pre></code>
+</section>
+
+<section style="background-color:white;color:black">
+<img src="./images/ggmap5.png" height="100%"/>
+</section>
+<section style="padding-top:5em">
+<h1 class="green"> Cartes </h1>
+<h1 class="orange"> Choroplèthes </h1>
+</section>
+
+<section>
+
+<pre><code class="r"># lecture des données INSEE
+options(stringsAsFactors=FALSE)
+data=read.csv("./base-cc-logement-2011.csv",header=T)
+# selection des données d'ile de france
+dataIDF=data[data$REG==11,]
+# calcul de la variable d'intérêt
+dataIDF$RP11percent=dataIDF$P11_RP/dataIDF$P11_LOG*100
+
+# lecture du fond de carte
+library(sp)
+library(rgeos)
+library(maptools)
+communes=readShapeSpatial("./communes-plus-20140630-100m.shp",
+proj4string=CRS("+proj=longlat +ellps=WGS84 +datum=WGS84 +no_defs"))
+
+# selection des données d'ile de france
+communesIDF=subset(communes,communes@data$code_reg==11)
+# mise en forme pour ggplot 
+gg = fortify(communesIDF,region="insee")
+ggdata=merge(gg,dataIDF,by.x="id",by.y="CODGEO")
+pe=order(ggdata$group,ggdata$order)
+ggdata=ggdata[pe,]
+# creation de la carte
+ggplot(ggdata,aes(x=long,y=lat,group=group,fill=RP11percent))+geom_polygon()+coord_map()
+</pre></code>
+
+</section>
+
+<section style="background-color:white;color:black">
+<img src="./images/ggchoro1.png" height="100%"/>
+</section>
+
+<section style="background-color:white;color:black">
+<img src="./images/ggchoro2.png" height="100%"/>
+</section>
+<section>
+<h4>Code :</h4>
+<pre><code class="r">dataIDF$RP11percentQ=cut(dataIDF$RP11percent,quantile(dataIDF$RP11percent,seq(0,1,0.2)))
+ggdata=merge(gg,dataIDF,by.x="id",by.y="CODGEO")
+pe=order(ggdata$group,ggdata$order)
+ggdata=ggdata[pe,]
+ggplot(ggdata,aes(x=long,y=lat,group=group,fill=RP11percentQ))+geom_polygon()
++scale_fill_brewer("% Résidences Principales",palette="BuGn")+coord_map()+mytheme
+</pre></code>
+</section>
+
+<section>
+<h1 class="green"> Links : </h1>
+<ul>
+<li> <a href="https://docs.google.com/presentation/d/1Gdv6RBdyvVaP3L-n8p4s_ojcTyMiyowvFGG0KKpn3ys/edit#slide=id.p"> Basic charts </a>
+<li> <a href="http://docs.ggplot2.org/current/">ggplot 2 documentation</a>
+<li> <a href="http://www.cookbook-r.com/Graphs/">ggplot 2 cookbook</a>
+<li><a href="http://www.ling.upenn.edu/~joseff/rstudy/summer2010_ggplot2_intro.html">introduction à ggplot</a>
+<li><a href="http://fr.slideshare.net/izahn/rgraphics-12040991">cours ggplot (1)</a>
+<li><a href="http://fr.slideshare.net/jalle6/tech-talk-ggplot2?related=2">cours ggplot (2)</a>
+<li><a href="https://www.google.fr/url?sa=t&rct=j&q=&esrc=s&source=web&cd=2&ved=0CC0QFjAB&url=http%3A%2F%2Fjournal.r-project.org%2Farchive%2F2013-1%2Fkahle-wickham.pdf&ei=LTBlVNSDOpH1au7zgrAJ&usg=AFQjCNG7-2iYFI2b28oizWS9KF5kqh_oYQ&sig2=TtudLLlesRD1BkTZRwTO1Q&cad=rja">ggmap: Spatial Visualization with ggplot2 by David Kahle and Hadley Wickham</a>
+
+</ul>
+
+</section>
+
+
+<section class="exercice" style="padding-top:5em;text-align:center">
+<h1>.. Exercices ..</h1>
+</section>
+
+<section class="exercice">
+<img src="figure/unnamed-chunk-16-1.png" title="plot of chunk unnamed-chunk-16" alt="plot of chunk unnamed-chunk-16" height="80%"></img>
+<h4 style="text-aling:center"> Reprendre les échelles, légendes de cette figure </h4>
+</section>
+
+
+<section class="exercice">
+<h4> Réaliser une bubble carte de la disponibilité des vélos</h4>
+<img src="./images/velibbikes.png" height="80%"></img>
+<a href="http://vlsstats.ifsttar.fr/data/input_Paris.json" style="text-align:center">http://vlsstats.ifsttar.fr/data/input_Paris.json</a>
+</section>
+
+
+<section class="exercice" style="padding-top:5em">
+<h1> Réaliser une choroplèthe du taux de naissances / départements</h1>
+<a href="../Donnees/donnees_naissances_morts_communes.csv">../Donnees/donnees_naissances_morts_communes.csv</a><br>
+<a href="../Donnees/departements-20140306-50m-shp.zip">../Donnees/departements-20140306-50m-shp.zip</a>
+
+</section>
+
+
+
+<section class="exercice" style="padding-top:5em;text-align:center">
+<h1> Réaliser une carte de densité <br>(par hexagonal binning)<br> à partir de données extraites <br><a href="http://overpass-turbo.eu/">d'overpass</a></h1>
+
+</section>
+
+
+<section class="exercice" style="padding-top:5em">
+<h1> Clustering des stations </h1><h1>+ visu </h1>
+<a href="http://vlsstats.ifsttar.fr/data/spatiotemporalstats_Paris.json" style="text-align:center">http://vlsstats.ifsttar.fr/data/spatiotemporalstats_Paris.json</a>
+</section>
+
+<script src="../../library/stack.v1.min.js"></script>
+<link rel="stylesheet" href="../../library/styles/hybrid.css">
+<script src="../../library/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<!--
+Notes :
+mapping 
+Bertin
+Tuft
+grammaire wilkinson
+
+détails importants:
+bon mapping,
+échelles,
+ordre des facteurs,
+aspect ratio,
+discretisation,
+...
+
+Lie factor:
+3d pie-chart
+dataink ratio
+3d pie-chart
+
+Cartes de densité a partir d'open street map en utilisant hexbin
+ 
+
+-->
+
+<script>
+
+
+
+
+</script>

@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<style>
+
+@import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700);
+@import url(http://fonts.googleapis.com/css?family=Contrail+One:400,700);
+
+</style>
+<link rel="stylesheet" type="text/css" href="../../library/common.css" />
+<link rel="stylesheet" type="text/css" href="../../library/screen.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="../../library/print.css" media="print" />
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+
+</head>
+
+
+<section style="text-align:center;padding-top:5em;">
+  <h1><span class="green">Data Science Hacking Basics </span></h1></br> <h2>avec Linux, R, et Chrome<br> <p class="grey">Master IM, Paris 5</h2>
+  <a href="http://www.twiter.com/comeetie">@comeetie</a>
+</section>
+
+<section style="text-align:center;padding-top:5em;">
+  <h1><span class="green">Révisions  de R</span></h1></br> <h2><br> <p class="grey">Master IM, Paris 5</h2>
+  <a href="http://www.twiter.com/comeetie">@comeetie</a>
+</section>
+
+<section>
+
+<h1 class="green">R</h1>
+
+<ul>
+<li> language de <span class="red"> haut niveau </span> 
+<li> support natif des valeur manquantes
+<li> programation objet
+<li> éco-système vivant : beaucoup de packages 
+<li> <span class="red">! plutôt permisif</span> 
+<li> <a href="http://cran.r-project.org/doc/contrib/Lam-IntroductionToR_LHL.pdf">http://cran.r-project.org/doc/contrib/Lam-IntroductionToR_LHL.pdf</a>
+<li> ...
+</ul>
+
+</section>
+
+<section>
+<h1 class="green">Les types de base</h1>
+les vecteurs :
+<pre><code class="r"># vecteur d'entier
+a = c(1,5,10)
+class(a)
+# de chaine de caractère 
+b = c("a","g","t","t","c","g","g")
+class(b)
+</pre></code>
+<ul>
+<li>permet de stocker des éléments de même type
+<li>opérations de bases c, length, seq, rep, indexation logique
+</ul>
+</section>
+<section>
+<h1 class="green">Les types de base</h1>
+les vecteurs, manipulations de bases :
+<pre><code class="r">length(a)
+a[1:2]
+i = 1:2
+a[i]
+i = seq(1,length(b),2)
+b[i]
+i = rep(1,5)
+b[i]
+i = rep(c(1,2),5)
+b[i]
+i = rep(c(1,2),each=3)
+b[i]
+i = (b=="g")
+b[i]
+</pre></code>
+</section>
+
+
+<section>
+<h1 class="green">Les types de base</h1>
+les facteurs :
+<pre><code class="r">b = c("a","g","t","t","c","g","g")
+c = factor(b,levels=c("a","t","g","c"))
+levels(c)
+unclass(c)
+</pre></code>
+<ul>
+<li>type particulier de vecteurs pour coder des catégories "les niveaux (levels)"
+<li>opérations de bases c, length, levels, unclass
+<li><span class="red">! interprétation des chaines de caractères comme des facteurs lors de la création d'une data.frame, cf option stringAsFactor</span>
+</ul>
+</section>
+
+
+<section>
+<h1 class="green">Les types de base</h1>
+les matrices :
+<pre><code class="r"># matrice d'entier
+a = matrix(c(1,5,10,10),2,2)
+# de chaine de caractère 
+b = rbind(c("a","g"),c("t","t"),c("c","g"),c("t","g"))
+c = cbind(c("a","g"),c("t","t"),c("c","g"),c("t","g"))
+dim(b)
+t(b)
+dim(t(b))
+a[1,]
+b[,2]
+c[c[,1]=="a",]
+</pre></code>
+<ul>
+<li>permet de stocker des éléments de même type
+<li>opérations de bases dim, rbind, cbind, indexation logique
+</ul>
+</section>
+
+
+<section>
+<h1 class="green">Les types de base</h1>
+les array :
+<pre><code class="r"># tenseur de dimension 3
+a = array(runif(50),dim=c(5,5,2))
+a[1,,]
+a[,5,]
+a[,2,1]
+</pre></code>
+<ul>
+<li>permet de stocker des éléments de même type
+<li>opérations de bases dim, indexation logique
+</ul>
+</section>
+
+
+<section>
+<h1 class="green">Les types de base</h1>
+les listes :
+<pre><code class="r">l = list(a,b,c)
+length(l)
+l[[2]]
+l = list(a=a,b=b,c=c)
+l$a
+l$c
+l[[1]]
+</pre></code>
+<ul>
+<li>permet de stocker des éléments de type différents
+<li>opérations de bases length
+</ul>
+</section>
+
+
+<section>
+<h1 class="green">Les types de base</h1>
+les data.frame :
+<pre><code class="r">d = data.frame(v1=rep("a",10),v2=1:10,v3=runif(10))
+dim(d)
+d$v1
+d[,3]
+d$v4 = factor(rep(c("a","b"),5),levels=c("a","b"))
+d[d$v4=="a",]
+d[,"v2"]
+d[,c(3,1)]
+d[,c("v2","v4")]
+names(d)
+summary(d)
+</pre></code>
+<ul>
+<li>permet de stocker des éléments de type différents
+<li>liste de vecteurs només indexable et manipulable comme une matrice
+<li>opérations de bases dim, cbind, rbind, names, summary
+</ul>
+</section>
+
+
+<section>
+<h1 class="purple">Les fonctions</h1>
+<pre><code class="r">f = function(a,b){
+  return(a-b)
+}
+f(5,6)
+f(b=5,a=6)
+f = function(a=32,b=12){
+  a-b
+}
+f()
+f(5,6)
+f(b=5,a=6)
+</pre></code>
+<ul>
+<li>une variable comme une autre ?
+<li>argument nomé et valeur par défaut
+<li>pas besoin de return explicite
+</ul>
+</section>
+
+<section>
+<h1 class="purple">Les structures de contrôle</h1>
+<pre><code class="r">if(a == b){}
+for (i in 1:length(a)){}
+while(i > 4){i=i-1}
+</pre></code>
+<span class="red">! éviter les boucles for, while préférer les opérations vectorielle</span>
+
+<pre><code class="r">a=runif(100000)
+t=Sys.time()
+for (i in 1:length(a)){a[i]=a[i]+5}
+t1=Sys.time()-t
+t1
+</pre></code>
+<span class="green">Version vectorielle</span>
+<pre><code class="r">t=Sys.time()
+a=a+5
+t2=Sys.time()-t
+t2
+as.numeric(t1)/as.numeric(t2)
+</pre></code>
+</section>
+
+
+<section>
+<h1 class="purple">Quelques fonctions vectorielles</h1>
+somme (sum), somme cumulée (cumsum), différences finies (diff), max, min ...
+<pre><code class="r">a=data.frame(v1=runif(5000),v2=rnorm(5000),v3=rbinom(5000,5,0.2))
+# opération algébrique de base
+a$v1+a$v2;a$v1*a$v2;a$v1/a$v2
+# produit matriciel
+t(a$v1)%*%a$v2
+# somme et somme cumulé
+sum(a$v2);cumsum(a$v1)
+# différence
+diff(a$v2)
+# max, min ...
+max(a$v3)
+which.max(a$v1)
+which(a$v1>0.2)
+# concatenation de chaine de caractères
+paste(a$v1,a$v2)
+# sommes sur les matrices
+b=matrix(runif(100),10,10)
+sum(b);rowSums(b);colSums(b)
+</pre></code>
+</section>
+
+<section>
+<h1 class="purple">Apply, lapply, sapply</h1>
+Appliquer une fonction à chaque élément d'un objet
+<pre><code class="r">a=data.frame(v1=runif(5000),v2=rnorm(5000),v3=rbinom(5000,5,0.2))
+# appliquer à chaque lignes
+r=apply(a,1,sum)
+head(r);class(r);dim(r)
+# appliquer à chaque colonnes
+r=apply(a,2,function(col){c(max(col),which.max(col))})
+r;class(r);dim(r)
+# appliquer à tous les éléments d'une liste
+b=list(v1=runif(5000),v2=rnorm(5000),v3=rbinom(5000,5,0.2))
+r=lapply(b,which.max)
+r;class(r)
+r=sapply(b,which.max)
+r;class(r)
+</pre></code>
+<span class="red">à préférer aux boucles...</span>
+</section>
+
+
+
+
+
+<section>
+<h1 class="purple">Subset : sample, logical indexing</h1>
+Sélectionner une partie des données
+<pre><code class="r">#logical indexing
+a[a$v1>0.5 & a$v3==3,]
+#fonction subset
+subset(a,v1>0.5 & v3==3)
+</pre></code>
+
+<h1 class="purple">Binning : cut</h1>
+Prétraiter les variables pour construires des facteurs // intervalles
+<pre><code class="r">r=cut(a$v2,c(-Inf,-3,-2,2,1,Inf))
+class(r);head(r)
+</pre></code>
+</section>
+
+
+
+<section>
+<h1 class="purple">Jointure : merge, %in%, match</h1>
+
+<pre><code class="r">a=data.frame(id=1:500,val1=runif(500))
+b=data.frame(id=sample(500,500),val2=runif(500))
+# jointure par colonne de même nom
+c=merge(a,b)
+# recherche des indices de correspondances
+match(a$id,b$id)
+d=cbind(a,b$v2[match(a$id,b$id)])
+sum(d!=c)
+# matching multiples 
+b=data.frame(id=sample(500,1000,replace=T),val2=runif(1000))
+match(a$id,b$id)
+match(b$id,a$id)
+a$id %in% b$id
+c=merge(a,b)
+head(c)
+c=merge(a,b,all.x=T)
+head(c)
+</pre></code>
+
+
+</section>
+
+
+<section>
+<h1 class="purple">Aggrégation : tapply, by, aggregate</h1>
+<pre><code class="r">
+a=data.frame(id=1:500,val1=runif(500),val2=factor(rbinom(500,5,0.4)))
+aggregate(a$val1,list(a$val2),sum)
+tapply(a$val1,list(a$val2),summary)
+by(a$val1,list(a$val2),summary)
+</pre></code>
+
+<h1 class="purple">Comptage : table</h1>
+<pre><code class="r">table(a$val2)
+a$val3=rep(c("a","t","g","c"),500/4)
+table(a[,c('val2','val3')])
+</pre></code>
+</section>
+
+
+<section>
+<h1 class="purple">Dédupliquer : unique, duplicated</h1>
+<pre><code class="r">val=rbinom(500,5,0.4)
+unique(val)
+duplicated(val)
+</pre></code>
+
+
+<h1 class="purple">Ordonner : sort, order</h1>
+<pre><code class="r">a=runif(500)
+#selon une variable
+sort(a)
+order(a)
+# selon plusieur variables
+a=data.frame(id=1:500,val1=runif(500),val2=rbinom(500,5,0.4))
+a[order(a$val2,a$val1),]
+</pre></code>
+
+</section>
+
+
+<script src="../../library/d3.v3.min.js"></script>
+<script src="../../library/stack.v1.min.js"></script>
+<link rel="stylesheet" href="../../library/styles/hybrid.css">
+<script src="../../library/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
+<script>
+
+var mystack = stack()
+    .on("activate", activate)
+    .on("deactivate", deactivate);
+
+var section = d3.selectAll("section"),
+    follow = d3.select("#follow"),
+    followAnchor = d3.select("#follow-anchor"),
+    lorenz = d3.select("#lorenz"),
+    followIndex = section[0].indexOf(follow.node()),
+    lorenzIndex = section[0].indexOf(lorenz.node());
+
+function refollow() {
+  followAnchor.style("top", (followIndex + (1 - mystack.scrollRatio()) / 2 - d3.event.offset) * 100 + "%");
+}
+
+function activate(d, i) {
+  if (i === followIndex) mystack.on("scroll.follow", refollow);
+  if (i === lorenzIndex) startLorenz();
+}
+
+function deactivate(d, i) {
+  if (i === followIndex) mystack.on("scroll.follow", null);
+  if (i === lorenzIndex) stopLorenz();
+}
+
+
+</script>

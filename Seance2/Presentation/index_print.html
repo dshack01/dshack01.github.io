@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width">
+<style>
+
+@import url(http://fonts.googleapis.com/css?family=Yanone+Kaffeesatz:400,700);
+@import url(http://fonts.googleapis.com/css?family=Contrail+One:400,700);
+
+</style>
+<link rel="stylesheet" type="text/css" href="../../library/common.css" />
+<link rel="stylesheet" type="text/css" href="../../library/screen.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="../../library/print.css" media="print" />
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    extensions: ["tex2jax.js"],
+    jax: ["input/TeX", "output/HTML-CSS"],
+    tex2jax: {
+      inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\[","\\]"] ],
+      processEscapes: true
+    },
+    "HTML-CSS": { availableFonts: ["TeX"] }
+  });
+</script>
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js"></script>
+
+</head>
+
+
+<section style="text-align:center;padding-top:5em;">
+  <h1><span class="green">Data Science Hacking Basics </span></h1></br> <h2>avec Linux, R, et Chrome<br> <p class="grey">Master IM, Paris 5</h2>
+  <a href="http://www.twiter.com/comeetie">@comeetie</a>
+</section>
+
+<section style="text-align:center;padding-top:5em;">
+  <h1><span class="green">Trouver et enrichir des données,</span></h1></br> <h2>Scrapping, API et Base de données en ligne<br> <p class="grey">Master IM, Paris 5</h2>
+  <a href="http://www.twiter.com/comeetie">@comeetie</a>
+</section>
+
+<section>
+
+<h1 class="green">Où trouver des données sur le web</h1>
+
+<ul>
+<li>instituts publics : <a href="http://www.insee.fr">insee</a>, <a href="http://professionnels.ign.fr/catalogue">ign</a>, ...
+<li>portails open-data : <a href="http://data.iledefrance.fr"> data.iledefrance.fr</a>, <a href="http://data.gouv.fr">data.gouv.fr</a>, ...
+<li>sites collaboratifs : <a href="http://fr.dbpedia.org/">wikipedia (dbpedia)</a>, <a href="http://download.geofabrik.de/">openstreetmap</a>, ...
+<li>sites specialisés : <a href="http://french.wunderground.com/history/airport/LFPO/2014/9/10/DailyHistory.html?">météo</a>, <a href="http://www.footballstats.fr/">sports</a>, <a href="http://www.meilleursagents.com/api/geo2/get_idf_pricemap_info?x=2.32&y=48.67&z=10">logement</a>, <a href="http://www.leboncoin.fr">annonces</a>, ...
+<li>réseaux sociaux : <a href="https://dev.twitter.com/rest/public">twitter</a>, <a href="https://www.flickr.com/services/api/">flickR</a>, <a href="http://gnip.com/sources/foursquare/">foursquare</a>, ... 
+<li>moteur de recherche : <a href="https://developers.google.com/apis-explorer/#p/">google</a>, <a href="https://developer.yahoo.com/everything.html">yahoo</a>, <a href="http://www.bing.com/dev/en-us/dev-center">bing</a>, ... 
+<li>api spécialisées : <a href="http://developpers.jcdecaux.fr">velib</a>, ...
+
+</ul>
+
+</section>
+
+<section>
+<h1 class="green">Où trouver des données sur le web</h1>
+
+<h4 class="red"> Jeux de données, déjà mis en forme</h4>
+<ul>
+<li>instituts publics : <a href="http://www.insee.fr">insee</a>, <a href="http://professionnels.ign.fr/catalogue">ign</a>, ...
+<li>portails open-data : <a href="http://data.iledefrance.fr"> data.iledefrance.fr</a>, <a href="http://data.gouv.fr">data.gouv.fr</a>, ...
+<li>sites collaboratifs : <a href="http://fr.dbpedia.org/">wikipedia (dbpedia)</a>, <a href="http://download.geofabrik.de/">openstreetmap</a></ul>
+
+
+</section>
+
+
+<section>
+<h1 class="green">Où trouver des données sur le web</h1>
+
+<h4 class="red"> Jeux de données à mettre en forme</h4>
+<h4 class="green">Scrapping </h4>
+<ul>
+<li>sites specialisés : <a href="http://french.wunderground.com/history/airport/LFPO/2014/9/10/DailyHistory.html?">météo</a>, <a href="">sports</a>, <a href="http://www.meilleursagents.com/api/geo2/get_idf_pricemap_info?x=2.32&y=48.67&z=10">logement</a>, <a href="http://www.leboncoin.fr">annonces</a>, ...
+</ul>
+
+<h4 class="green">API</h4>
+<ul>
+<li>sites collaboratifs : <a href="http://overpass-api.de/">openstreetmap</a>, ...
+<li>réseaux sociaux : <a href="https://dev.twitter.com/rest/public">twitter</a>, <a href="https://www.flickr.com/services/api/">flickR</a>, <a href="http://gnip.com/sources/foursquare/">foursquare</a>, ... 
+<li>moteur de recherche : <a href="https://developers.google.com/apis-explorer/#p/">google</a>, <a href="https://developer.yahoo.com/everything.html">yahoo</a>, <a href="http://www.bing.com/dev/en-us/dev-center">bing</a>, ... 
+<li>api spécialisées : <a href="http://developpers.jcdecaux.fr">velib</a>, ...
+</ul>
+
+</section>
+
+<section style="padding-top:6em;text-align:center">
+<h1 class="purple">Scrapping</h1>
+<h4 class="purple">Extraire des informations spécifiques</h4>
+<h4 class="purple">d'une ou plusieurs pages web</h4>
+<h4 class="purple">en vu de constituer un jeu de données</h4>
+</section>
+
+
+
+<section>
+<h1 class="purple">Scrapping, le html </h1>
+<pre><code class="html">&lt;!DOCTYPE html&gt;
+&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;/head&gt;
+&lt;body&gt;
+&lt;section style=&quot;padding-top:6em;text-align:center&quot;&gt;
+&lt;h1 class=&quot;purple&quot;&gt; Scrapping &lt;/h1&gt;
+&lt;h4 class=&quot;purple&quot;&gt;Extraire des informations spécifiques&lt;/h4&gt;
+&lt;h4 class=&quot;purple&quot;&gt;d'une ou plusieurs pages web&lt;/h4&gt;
+&lt;h4 class=&quot;purple&quot;&gt;en vu de constituer un jeu de donn&#233;es&lt;/h4&gt;
+&lt;/section&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+</pre></code>
+</section>
+
+
+
+<section class="outil">
+<h1> Scrapping, les package RCurl et XML </h1>
+<h4>RCurl (Client URL Request Library)</h4>
+le web en ligne de commande : <a href="http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html">get, post</a>, <a href="http://fr.wikipedia.org/wiki/HyperText_Transfer_Protocol_Secure">https</a>, <a href="http://fr.wikipedia.org/wiki/File_Transfer_Protocol">ftp</a>, ...
+<pre><code class="r">library(RCurl)
+# récupérer la page  
+res  = getURL("http://www.leboncoin.fr/jardinage/offres/centre/")
+</pre></code>
+<h4>XML</h4>
+htmlTreeParse, getNodeSet :
+<pre><code class="r"># parse du html
+resp  = htmlTreeParse(res,useInternal=T)
+# fonction de haut niveau pour récupérer les tableaux 
+rest  = readHTMLTable(resp)
+# récupérer un noeud désiré (xpath)
+node  = getNodeSet(resp, '//nav/ul/')
+</pre></code>
+</section>
+
+
+<section class="outil">
+<h1> Scrapping, les package RCurl et XML </h1>
+<h4>Xpath, extraire des informations d'un arbre DOM</h4>
+Syntaxe pour se promener dans l'abre dom et en extraire des partie (noeuds, attributs, ...), plus détails sur <a href="http://www.w3schools.com/xpath/xpath_syntax.asp">w3schools</a>.</br>
+<table style="width:80%;margin-top:1em;margin-left:3em">
+  <tbody><tr>
+	<th style="width:40%">Expression</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td><i>nodename</i></td>
+    <td>Selects all nodes with the name "<i>nodename</i>"</td>
+    </tr>
+  <tr>
+    <td>/</td>
+    <td>Selects from the root node</td>
+    </tr>
+  <tr>
+    <td>//</td>
+    <td>Selects nodes in the document from the current node that 
+	match the selection no matter where they are </td>
+  </tr>
+  <tr>
+    <td>.</td>
+    <td>Selects the current node</td>
+  </tr>
+  <tr>
+    <td>..</td>
+    <td>Selects the parent of the current node</td>
+  </tr>
+  <tr>
+    <td>@</td>
+    <td>Selects attributes</td>
+  </tr>
+</tbody></table>
+</section>
+
+<section class="outil">
+<h1> Scrapping, les package RCurl et XML </h1>
+<h4>Xpath, extraire des informations d'un arbre DOM</h4>
+Syntaxe pour se promener dans l'abre dom et en extraire des partie (noeuds, attributs, ...), plus détails sur <a href="http://www.w3schools.com/xpath/xpath_syntax.asp">w3schools</a>.</br>
+<table style="width:80%;margin-top:1em;margin-left:3em">
+  <tbody><tr>
+	<th style="width:40%">Expression</th>
+    <th>Description</th>
+  </tr>
+  <tr>
+    <td>/bookstore/book[1] </td>
+    <td>Selects the first book element that is the child of the 
+	bookstore element.</td>
+    </tr>
+  <tr>
+    <td>//title[@lang]</td>
+    <td>Selects all the title elements that have an attribute named 
+	lang</td>
+  </tr>
+  <tr>
+    <td>//title[@lang='en']</td>
+    <td>Selects all the title elements that have an attribute named lang 
+	with a value of 'en'</td>
+  </tr>
+  <tr>
+    <td>/bookstore/book[price&gt;35.00]</td>
+    <td>Selects all the book elements of the bookstore element that 
+	have a price element with a value greater than 35.00</td>
+  </tr>
+  </tbody></table>
+</section>
+
+<section class="exercice">
+<h1>Scrapper leboncoin.fr</h1>
+<p>Ecrire un script R permettant de scrapper le nombre d'annonce du site dans la catégorie "Jardinage" en région centre.
+</p>
+<a href="http://www.leboncoin.fr/jardinage/offres/centre/"><img src="./images/leboncoin.png" height="80%"></a>
+</section>
+
+
+<section class="correction">
+<h1>Scrapper leboncoin.fr</h1>
+<pre><code class="r">library(RCurl)
+library(XML)
+
+# récupérer la page 
+res  = getURL("http://www.leboncoin.fr/jardinage/offres/centre/")
+# la parser
+resp = htmlTreeParse(res,useInternal=T)
+# récupérer le noeud désiré (xpath)
+node = getNodeSet(resp, '//nav/ul/li/span/b')
+# récupérer la valeure, supprimer l'espace et convertir en numérique  
+val  = as.numeric(gsub(" ","",xmlValue(node[[1]])))
+</code></pre>
+
+</section>
+
+<section class="exercice">
+<h1>Scrapper stackoverflow.com</h1>
+<p>Ecrire un script R permettant de scrapper le nombre de question publier sur les sites ayant les tags :
+<b>'python','julia-lang','r','sas','matlab','ggplot2' et 'd3.js'</b>. Réaliser un graphique à partir de ces données.
+</p>
+<a href="http://stackoverflow.com/questions/tagged/python"><img src="./images/stackoverflow.png" height="70%"></a>
+</section>
+
+
+<section class="correction">
+<h1>Scrapper stackoverflow.com</h1>
+<pre><code class="r"># definition des termes à scrapper 
+languages=c('python','julia-lang','r','sas','matlab','ggplot2','d3.js')
+# initialisation de la table
+stackOF=data.frame(lang=languages,questions=NA)
+# boucle sur les termes
+for(i in 1:length(languages)){
+  # récupérer la page
+  base = "http://stackoverflow.com/questions/tagged/"
+  res  = getURL(paste(base,stackOF[i,'lang'],sep=''))
+  # la parser et récupérer le noeud désiré (xpath)
+  resp = htmlTreeParse(res,useInternal=T)
+  ns1  = getNodeSet(resp, "//div[@class='summarycount al']")  
+  # récupérer la valeure, supprimer la virgule et convertir en numérique 
+  stackOF[i,'questions'] = as.numeric(gsub(",","",xmlValue(ns1[[1]])))
+}
+# faire un graphique
+stackOF=stackOF[order(stackOF$questions,decreasing=T),]
+title="Popularité sur stackOverFlow 09/2014"
+barplot(stackOF$questions,names.arg=stackOF$lang,main=title,ylab="Nombre de questions")
+</code></pre>
+</section>
+
+<section style="background-color:white;text-color=white;">
+<h1>Scrapper stackoverflow.com</h1>
+<img src="./images/stackoverflow_popularite.png" height="85%">
+</section>
+
+<section class="exercice" style="padding-top:7em;">
+<h1>Scrapper les résultats de ligue 1</h1><h4> sur footballstats.fr</h4>
+Récupérer les dix dernières années de résultats du championnat de france
+</section>
+
+<section class="correction">
+<h1>Scrapper les résultats de ligue 1</h1>
+<h4> sur footballstats.fr</h4>
+<pre><code class="r"># récupérer la page et la parser
+year = 2014
+res  = getURL(paste("http://www.footballstats.fr/resultat-ligue1-",year,".html",sep=''))
+resp = htmlTreeParse(res,useInternal=T)
+# récupérer le bon tableau de la page
+rest = readHTMLTable(resp)[[2]]
+# le remettre légèrement en forme
+rest = rest[!is.na(rest[,2]),1:3]
+names(rest) = c('locaux', 'visiteur','resultat')
+rest$locaux=factor(as.character(rest$locaux),levels=unique(rest$locaux))
+rest$visiteurs=factor(as.character(rest$visiteur),levels=unique(rest$locaux))
+resm=matrix(unlist(strsplit(as.character(rest$resultat),'-')),2)
+rest$resultat.locaux=as.numeric(resm[1,])
+rest$resultat.visiteurs=as.numeric(resm[2,])
+</code></pre>
+</section>
+
+<section class="correction">
+<h1>Scrapper les résultats de ligue 1</h1>
+<h4> sur footballstats.fr</h4>
+<pre><code class="r"># récupérer la page et la parser
+# calcul des totaux de buts marqués / encaissés
+Abutadomicile = by(rest$resultat.locaux,rest$locaux,sum)
+Abutalexterieur = by(rest$resultat.visiteur,rest$visiteur,sum)
+Abut = Abutadomicile+Abutalexterieur
+Dbutadomicile = by(rest$resultat.visiteur,rest$locaux,sum)
+Dbutalexterieur = by(rest$resultat.locaux,rest$visiteur,sum)
+Dbut = Dbutadomicile+Dbutalexterieur
+# faire un graphique
+ti = paste("Ligue 1, Saison",year)
+xl = "Buts marqués"
+yl = "Buts encaissés"
+plot(Abut,Dbut,xlab=xl,ylab=yl,col="white",main=ti)
+text(Abut,Dbut,levels(rest$locaux),cex=0.6)
+</code></pre>
+</section>
+
+<section style="background-color:white;padding-top:1em">
+<img src="./images/res_football2014.png" height="95%">
+</section>
+
+
+<section style="background-color:white;padding-top:1em">
+<img src="./images/res_football2010.png" height="95%">
+</section>
+<section>
+<h1> API</br>
+Application Programming Interface</h1>
+</section>
+
+<section class="exercice" style="padding-top:7em;">
+<h1>Vélib' et altitude des stations</h1>
+Utiliser les fichiers <a href="http://vlsstats.ifsttar.fr/data/input_Paris.json">http://vlsstats.ifsttar.fr/data/input_Paris.json</a> et <a href="http://vlsstats.ifsttar.fr/data/spatiotemporalstats_Paris.json">http://vlsstats.ifsttar.fr/data/spatiotemporalstats_Paris.json</a> ainsi que <a href="https://developers.google.com/maps/documentation/webservices/?hl=FR">l'api google maps</a> pour calculer un indicateur de charge moyenne des stations Vélib' et mettre celui-ci en relation avec l'altitude des stations.
+</section>
+
+<section style="background-color:white;padding-top:1em;">
+<img src="./images/altitude_velib.png" height="95%">
+</section>
+
+
+<section class="correction">
+<h1>Vélib' et altitude des stations</h1>
+<pre><code class="r"># récupérer la liste des stations et la mettre en forme
+stationsList=fromJSON(file="http://vlsstats.ifsttar.fr/data/input_Paris.json")
+data=sapply(stationsList,function(x){
+	c(x$number,x$name,x$address,x$bike_stands,x$position$lat,x$position$lng)
+	})
+stations=data.frame(id=data[1,],name=data[2,],adresse=data[3,],
+	nbdocks=as.numeric(data[4,]),lat=as.numeric(data[5,]),long=as.numeric(data[6,]),alt=NA)
+</code></pre>
+</section>
+
+<section class="correction">
+<h1>Vélib' et altitude des stations</h1>
+<h4>API google maps</h4>
+<pre><code class="r"># récupérer les altitudes
+for (i in 1:ceiling(dim(stations)[1]/50)){
+  system("sleep 0.5")
+  print(i)
+  ind   = ((i-1)*50):min((i*50),dim(stations)[1])
+  query = paste(stations[ind,'lat'],stations[ind,'long'],sep=',',collapse='|')
+  base  = "https://maps.googleapis.com/maps/api/elevation/json?locations="
+  url   = paste(base,query,sep="")
+  res   = fromJSON(getURL(url))
+  stations$alt[ind]=unlist(lapply(res$results,function(x){x$elevation}))
+}
+</code></pre>
+</section>
+
+<section class="correction">
+<h1>Vélib' et altitude des stations</h1>
+<h4>API google maps</h4>
+<pre><code class="r"># calculer l'indice de charge moyenne
+url = "http://vlsstats.ifsttar.fr/data/spatiotemporalstats_Paris.json"
+stationsData = fromJSON(file=url)
+res = sapply(stationsData,function(x){c(x$'_id', mean(x$available_bikes))})
+res = data.frame(t(res))
+names(res) = c('id','mnbikes')
+stations   = merge(stations,res,by="id")
+stations$loading = stations$mnbikes/stations$nbdocks
+ti = "Effet de l'altitude sur la charge des stations"
+yl = "Indicateur de charge moyenne"
+xl = "Altitude (m)"
+plot(stations$alt,stations$loading,xlab=xl,ylab=yl,main=ti)
+</code></pre>
+</section>
+
+<section class="exercice" style="padding-top:7em;">
+<h1>Vélib' et météo</h1>
+Utiliser le fichiers <a href="http://vlsstats.ifsttar.fr/data/daystats_Paris.json">http://vlsstats.ifsttar.fr/data/daystats_Paris.json</a> et des données météos pour enrichir ces données d'informations sur la météo. Vous croiserez en particulier l'usage du service et la tempréture.
+</section>
+
+<section style="background-color:white;padding-top:1em;">
+<img src="./images/velib_meteo.png" height="85%">
+</section>
+
+<section class="correction">
+<h1>Vélib' et météo</h1>
+
+<pre><code class="r"># mettre en forme les données vélib
+daysData=fromJSON(file="http://vlsstats.ifsttar.fr/data/daystats_Paris.json")
+daysData=sapply(daysData,function(x){c(x$'_id',x$value$totaltime_used_bikes,x$value$max_available_bikes)})
+daysData=data.frame(id=as.character(daysData[1,]),timeuse=as.numeric(daysData[2,]),nbikes=as.numeric(daysData[3,]),stringsAsFactors=F)
+</code></pre>
+</section>
+
+
+<section class="correction">
+<h1>Vélib' et météo</h1>
+
+<pre><code class="r"># mettre en forme les données météo
+base = "http://www.wunderground.com/weatherstation/WXDailyHistory.asp"
+meteo2013=getURL(paste(base,"?ID=IILEDEFR16&year=2013&graphspan=year&format=1",sep=""))
+meteo2014=getURL(paste(base,"?ID=IILEDEFR16&year=2014&graphspan=year&format=1",sep=""))
+meteo=gsub("\n&gt;br&lt;","",paste(meteo2013,meteo2014,sep="\n"))
+meteo=read.table(text=meteo,sep=',',header=T,stringsAsFactors=F)
+
+# créer une colone pour faire la jointure
+meteo$id=unlist(lapply(strsplit(meteo$Date,'-'),function(x){paste(x[3:1],collapse='/')}))
+data  = merge(daysData,meteo,by='id')
+temp  = as.numeric(data$TemperatureAvgC)
+usage = data$timeuse/data$nbikes
+pluie = as.numeric(data$PrecipitationSumCM.br.)>0
+# visualiser
+p = as.numeric(pluie)+1
+xl='Température (°C)'
+yl='Usage (mn/vélos)'
+ti='Effet de la température sur l\'usage'
+plot(temp,usage,col=c('black','red')[p],pch=c(1,2)[p],xlab=xl,ylab=yl,main=ti)
+legend(-1,160,legend=c('pas de pluie','pluie'),pch=c(1,2),col=c("black","red"))
+</code></pre>
+</section>
+
+
+<section class="exercice">
+<h1>Mettez en forme un jeu de données sur les monuments historiques d'Indre et Loire</h1>Celui-ci devra contenir tant que faire ce peux des informations sur leurs localisation (altitude/longitude) et une description iconographique.</h1>
+
+</section>
+<section class="correction">
+<h1>Monuments historiques</h1>
+
+<pre><code class="r"># exo monuments historiques
+library(rjson)
+monum=read.table("exo5.csv",sep="\t",header=T,quote="",stringsAsFactors=F)
+monum=monum[monum$DPT==37,]
+monum$lat=rep(NA,dim(monum)[1])
+monum$long=rep(NA,dim(monum)[1])
+monum$geoquality=rep('NA',dim(monum)[1]);
+</code></pre>
+</section>
+<section class="correction">
+<h1>Monuments historiques</h1>
+
+<pre><code class="r"># geocodage des adresse avec nominatim
+for (i in 1:dim(monum)[1]){
+  if(monum$ADRS[i]!=""){
+    adrs  = strsplit(monum$ADRS[i],';')[[1]][1]
+    dec   = strsplit(adrs,'[(,)]')[[1]]
+    adrs  = paste(dec[length(dec):1],collapse=' ')
+    query = paste(adrs,monum$COM[i],'France',sep=', ')
+    monum$geoquality[i] = 2
+  }else{
+    query = paste(monum$COM[i],'France',sep=', ')
+    monum$geoquality[i] = 1
+  }
+  base  = 'http://nominatim.openstreetmap.org/search?q='
+  query = URLencode(query)
+  query = paste(base,query,'&format=json&polygon=1&addressdetails=1',sep='')
+  res   = fromJSON(file=query)
+  if(length(res)>0){
+    print(paste(i, "Geocoding OK"))
+    monum$lat[i]  = as.numeric(res[[1]]$lat)
+    monum$long[i] = as.numeric(res[[1]]$lon)
+  }
+}
+</code></pre>
+</section>
+
+<section class="correction">
+<h1>Monuments historiques</h1>
+
+<pre><code class="r"># jointure avec les photos récupérées sur data.gouv
+photos=read.table("exo5.photos.txt",sep="\t",header=T,quote="",stringsAsFactors=F)
+monum$photos=photos$VIDEO.p[match(monum$REF,photos$LBASE)];
+
+# recerche de photos en utilisant l'api flickr
+for (i in 6:dim(monum)[1]){
+  base  = 'https://api.flickr.com/services/rest/?method=flickr.photos.search'
+  args  = '&api_key=edd8589d760e0b1d0bd00f0ac9c2f216&safe_search=1&per_page=1&radius=2&text='
+  query = paste(URLencode(monum$TICO[i]),'&lat=',monum$lat[i] ,'&lon=',monum$long[i],sep='')
+  res   = getURL(paste(base,args,query,sep='')
+  resp  = xmlTreeParse(res)
+  pp    = xmlChildren(xmlChildren(xmlRoot(resp))[[1]])
+  if(length(pp)>0){
+    photosFlickr=xmlAttrs(pp[[1]])
+    print(paste(i, "Photo trouvée"))
+    photoBurl= paste('https://farm',photosFlickr[5],'.staticflickr.com/',sep='')
+    photoPath= paste(photosFlickr[4],'/',photosFlickr[1],'_',photosFlickr[3],'.jpg',sep='')
+    monum$photos[i]=paste(photoBurl,photoPath,sep='')
+  }
+}
+
+</code></pre>
+</section>
+
+
+<section class="white" style="color:black">
+<h1>Monuments historiques</h1>
+<img src="./images/amboise.jpg" height="70%">
+</section>
+
+<script src="../../library/d3.v3.min.js"></script>
+<script src="../../library/stack.v1.min.js"></script>
+<link rel="stylesheet" href="../../library/styles/hybrid.css">
+<script src="../../library/highlight.pack.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+
+
+
